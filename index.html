@@ -161,7 +161,9 @@ table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:8px 5px;b
    SUPABASE_URL = Project Settings > API > Project URL
    SUPABASE_ANON_KEY = Project Settings > API > Publishable/anon key */
 const SUPABASE_URL = "https://papyubevwmlylqrkqqpy.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_nO07r57Wgx-g61Q1Hvi9xw_SauxcrNn";
+const SUPABASE_ANON_KEY = "sb_publishable_nO07r57Wgx-g61Q1Hvi9xw_SauxcrNnYOUR_KEY";
+console.log("POULTRY APP VERSION 2026-11-09-V2");
+console.log("SUPABASE URL:", SUPABASE_URL);
 const CONFIGURED=!SUPABASE_URL.includes("PASTE_")&&!SUPABASE_ANON_KEY.includes("PASTE_");
 let sb=null,user=null,rows={daily:[],sales:[],expenses:[],birds:[]};
 const today=new Date().toISOString().slice(0,10);
