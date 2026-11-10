@@ -6,228 +6,215 @@
 <meta name="theme-color" content="#14532d">
 <meta name="description" content="Poultry Business Manager - cloud poultry and egg business management">
 <title>Poultry Business Manager Cloud</title>
-<link rel="manifest" href="manifest.webmanifest">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--g:#14532d;--g2:#166534;--bg:#f4f7f4;--card:#fff;--txt:#17221a;--muted:#66716a;--line:#e2e8e3;--red:#b42318;--amber:#a15c00}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-button,input,select{font:inherit}button{cursor:pointer}.wrap{max-width:1050px;margin:auto;padding:14px}
-header{background:linear-gradient(135deg,#14532d,#166534);color:#fff;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px #0002}
-.head{max-width:1050px;margin:auto;padding:15px 14px}.brand{font-size:20px;font-weight:900}.sub{font-size:12px;opacity:.9;margin-top:2px}
-nav{max-width:1050px;margin:12px auto;display:flex;gap:7px;overflow:auto;padding:0 14px}
-nav button{white-space:nowrap;border:0;background:#fff;border-radius:11px;padding:10px 13px;font-weight:800;color:#285535;box-shadow:0 1px 5px #0001}
-nav button.active{background:var(--g);color:#fff}.page{display:none}.page.active{display:block}
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.card,.section{background:var(--card);border-radius:16px;box-shadow:0 1px 7px #0000000d}
-.card{padding:14px}.section{padding:15px;margin:12px 0}.label{font-size:11px;color:var(--muted)}.value{font-size:23px;font-weight:900;margin-top:3px}
-.green{color:var(--g2)}.red{color:var(--red)}.amber{color:var(--amber)}h2{font-size:16px;margin:0 0 12px}.small{font-size:12px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{font-size:11px;color:#56625a;display:block}input,select{width:100%;border:1px solid #d7dfd8;border-radius:10px;padding:11px;margin-top:5px;background:#fff}
-.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:800}.primary{background:var(--g);color:#fff}.secondary{background:#eef5ef;color:#225431}.danger{background:#fff0ef;color:#9f2119}.full{width:100%;margin-top:12px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.pill{display:inline-block;padding:5px 8px;border-radius:99px;background:#eef5ef;color:#27603a;font-size:11px;font-weight:800}
-table{width:100%;border-collapse:collapse;font-size:11px}th,td{padding:8px 5px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}th{color:#5c675f}
-.alert{padding:11px;border-radius:12px;background:#fff7e6;color:#7a4b00;font-size:12px;margin-top:10px}.ok{background:#edf8ef;color:#226034}
-.auth{max-width:430px;margin:35px auto}.auth .section{margin:0}.hidden{display:none!important}.status{font-size:11px;margin-top:8px;color:#68736b}
-.chart{width:100%;height:220px}.footer{text-align:center;color:#7a847d;font-size:11px;padding:22px}
-@media(min-width:700px){.cards{grid-template-columns:repeat(4,1fr)}.grid{grid-template-columns:repeat(3,1fr)}}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f7f5;color:#17351f}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+.wrap{max-width:1100px;margin:auto;padding:16px}.card{background:#fff;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 4px 18px #0000000d;border:1px solid #e3ebe5}
+h1,h2,h3{margin-top:0}.brand{background:#14532d;color:#fff;padding:20px;border-radius:18px;margin-bottom:14px}.brand small{opacity:.85}
+.auth{max-width:440px;margin:7vh auto}.auth .brand{text-align:center}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ccd8cf;border-radius:10px;background:#fff}
+label{display:block;font-size:13px;font-weight:700;margin:10px 0 6px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:700}.primary{background:#166534;color:#fff}.secondary{background:#e8f0ea;color:#14532d}.danger{background:#fee4e2;color:#b42318}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.msg{margin:10px 0;font-size:14px}.err{color:#b42318}.ok{color:#226034}
+nav{display:flex;gap:6px;overflow:auto;background:#fff;padding:8px;border-radius:14px;position:sticky;top:0;z-index:5;box-shadow:0 3px 14px #0000000c}
+nav button{white-space:nowrap;border:0;background:transparent;padding:10px 13px;border-radius:9px;color:#31543c;font-weight:700}nav button.active{background:#14532d;color:#fff}
+.page{display:none}.page.active{display:block}.kpi{background:#fff;border:1px solid #e0e9e2;border-radius:14px;padding:16px}.kpi b{font-size:24px;display:block;margin-top:5px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px;border-bottom:1px solid #e8eee9;text-align:left}th{background:#f4f8f5}
+.note{font-size:12px;color:#5d6f63}.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:14px 0}
+@media(max-width:700px){.grid,.grid3{grid-template-columns:1fr}.wrap{padding:10px}.card{padding:14px}.topbar{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
+<div id="authScreen" class="wrap auth">
+<div class="brand"><h1>🐔 Poultry Business Manager</h1><small>Cloud Poultry & Egg Business Management</small></div>
+<div class="card">
+<div id="loginBox"><h2>Login</h2>
+<label>Email</label><input id="loginEmail" type="email" autocomplete="email">
+<label>Password</label><input id="loginPassword" type="password" autocomplete="current-password">
+<div class="actions"><button class="btn primary" onclick="login()">Login</button><button class="btn secondary" onclick="signup()">Create Account</button></div>
+<button class="btn secondary" style="margin-top:10px;width:100%" onclick="toggleReset()">Forgot Password</button>
+</div>
+<div id="resetBox" class="hidden"><h2>Reset Password</h2><label>Email</label><input id="resetEmail" type="email">
+<div class="actions"><button class="btn primary" onclick="resetPassword()">Send Reset Email</button><button class="btn secondary" onclick="toggleReset()">Back</button></div></div>
+<div id="authMsg" class="msg"></div>
+</div></div>
 
-<div id="authScreen" class="auth wrap">
-<div class="section">
-<h2>🐔 Poultry Business Manager Cloud</h2>
-<p class="small">अपने business account से login करें। Data cloud में रहेगा और दूसरे mobile से भी खुलेगा।</p>
-<div id="loginBox">
-<label>Email</label><input id="loginEmail" type="email" placeholder="your@email.com">
-<label style="margin-top:10px">Password</label><input id="loginPassword" type="password" placeholder="कम से कम 6 characters">
-<button class="btn primary full" onclick="login()">Login</button>
-<button class="btn secondary full" onclick="signup()">Create Account</button>
-</div>
-<div id="resetBox" class="hidden">
-<label>Email</label><input id="resetEmail" type="email">
-<button class="btn secondary full" onclick="resetPassword()">Send Password Reset</button>
-</div>
-<button class="btn secondary full" onclick="toggleReset()">Forgot password</button>
-<div id="authMsg" class="status"></div>
-</div>
-</div>
-
-<div id="app" class="hidden">
-<header><div class="head"><div class="brand">🐔 Poultry Business Manager Cloud</div><div class="sub">100 मुरगी Egg Business • <span id="userEmail"></span></div></div></header>
-<nav id="nav">
+<div id="app" class="hidden"><div class="wrap">
+<div class="topbar"><div><b>🐔 Poultry Business Manager</b><div class="note" id="userEmail"></div></div><button class="btn danger" onclick="logout()">Logout</button></div>
+<nav>
 <button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
-<button onclick="showPage('daily',this)">Daily</button>
-<button onclick="showPage('sale',this)">Sales</button>
-<button onclick="showPage('expense',this)">Expense</button>
+<button onclick="showPage('daily',this)">Daily Eggs</button>
+<button onclick="showPage('sales',this)">Sales</button>
+<button onclick="showPage('expenses',this)">Expenses</button>
 <button onclick="showPage('birds',this)">Birds</button>
 <button onclick="showPage('stock',this)">Stock</button>
 <button onclick="showPage('reports',this)">Reports</button>
 <button onclick="showPage('settings',this)">Settings</button>
 </nav>
 
-<main class="wrap">
-<section id="dashboard" class="page active">
-<div class="cards">
-<div class="card"><div class="label">आज के Eggs</div><div class="value green" id="todayEgg">0</div></div>
-<div class="card"><div class="label">आज की Sales</div><div class="value green">₹<span id="todaySale">0</span></div></div>
-<div class="card"><div class="label">आज का Expense</div><div class="value red">₹<span id="todayExp">0</span></div></div>
-<div class="card"><div class="label">आज का Profit</div><div class="value" id="todayProfit">₹0</div></div>
+<section id="dashboard" class="page active"><div class="card"><h2>Business Dashboard</h2><div class="note">Your data is stored separately for your logged-in account.</div></div>
+<div class="grid3">
+<div class="kpi">Eggs Sold<b id="kEggs">0</b></div><div class="kpi">Sales<b id="kSales">₹0</b></div><div class="kpi">Expenses<b id="kExp">₹0</b></div>
+<div class="kpi">Other Income<b id="kOther">₹0</b></div><div class="kpi">Net Result<b id="kProfit">₹0</b></div><div class="kpi">Live Birds<b id="kBirds">0</b></div>
 </div>
-<div class="cards" style="margin-top:10px">
-<div class="card"><div class="label">Total Income</div><div class="value green">₹<span id="totalIncome">0</span></div></div>
-<div class="card"><div class="label">Total Cost</div><div class="value red">₹<span id="totalCost">0</span></div></div>
-<div class="card"><div class="label">Net Operating Profit</div><div class="value" id="netProfit">₹0</div></div>
-<div class="card"><div class="label">Current Birds</div><div class="value" id="live">100</div></div>
-</div>
-<div class="section"><h2>🚨 Alerts</h2><div id="alerts"></div></div>
-<div class="section"><h2>🥚 Production</h2><div class="cards">
-<div><div class="label">Good Eggs</div><div class="value" id="allEgg">0</div></div>
-<div><div class="label">Production %</div><div class="value green" id="prod">0%</div></div>
-<div><div class="label">Mortality</div><div class="value red" id="mort">0</div></div>
-<div><div class="label">Cost / Egg</div><div class="value">₹<span id="costEgg">0.00</span></div></div>
+<div class="card"><h3>Quick Add</h3><div class="actions">
+<button class="btn primary" onclick="go('daily')">+ Daily Entry</button><button class="btn primary" onclick="go('sales')">+ Sale</button>
+<button class="btn primary" onclick="go('expenses')">+ Expense</button><button class="btn primary" onclick="go('birds')">+ Bird Entry</button>
+</div></div></section>
+
+<section id="daily" class="page"><div class="card"><h2>Daily Egg & Feed Entry</h2><div class="grid">
+<div><label>Date</label><input id="ddate" type="date"></div><div><label>Live Birds</label><input id="dbirds" type="number" min="0"></div>
+<div><label>Good Eggs</label><input id="deggs" type="number" min="0"></div><div><label>Broken Eggs</label><input id="dbroken" type="number" min="0"></div>
+<div><label>Feed (kg)</label><input id="dfeed" type="number" min="0" step="0.01"></div><div><label>Feed Rate / kg</label><input id="dfeedrate" type="number" min="0" step="0.01"></div>
+</div><div class="actions"><button class="btn primary" onclick="saveDaily()">Save Daily Entry</button></div></div>
+<div class="card"><h3>Recent Daily Entries</h3><div id="dailyTable"></div></div></section>
+
+<section id="sales" class="page"><div class="card"><h2>Egg / Other Sales</h2><div class="grid">
+<div><label>Date</label><input id="sdate" type="date"></div><div><label>Egg Quantity</label><input id="sqty" type="number" min="0"></div>
+<div><label>Egg Rate</label><input id="srate" type="number" min="0" step="0.01"></div><div><label>Other Income</label><input id="sother" type="number" min="0" step="0.01"></div>
+</div><label>Note</label><textarea id="snote" rows="2"></textarea><div class="actions"><button class="btn primary" onclick="saveSale()">Save Sale</button></div></div>
+<div class="card"><h3>Recent Sales</h3><div id="salesTable"></div></div></section>
+
+<section id="expenses" class="page"><div class="card"><h2>Expense</h2><div class="grid">
+<div><label>Date</label><input id="edate" type="date"></div><div><label>Category</label><select id="ecat"><option>Feed</option><option>Medicine</option><option>Labour</option><option>Electricity</option><option>Transport</option><option>Bird Purchase</option><option>Other</option></select></div>
+<div><label>Amount</label><input id="eamt" type="number" min="0" step="0.01"></div></div><label>Note</label><textarea id="enote" rows="2"></textarea>
+<div class="actions"><button class="btn primary" onclick="saveExpense()">Save Expense</button></div></div>
+<div class="card"><h3>Recent Expenses</h3><div id="expenseTable"></div></div></section>
+
+<section id="birds" class="page"><div class="card"><h2>Bird Entry</h2><div class="grid">
+<div><label>Date</label><input id="bdate" type="date"></div><div><label>Birds Added</label><input id="badd" type="number" min="0"></div>
+<div><label>Birds Dead</label><input id="bdead" type="number" min="0"></div><div><label>Birds Sold</label><input id="bsold" type="number" min="0"></div>
+<div><label>Bird Sale Income</label><input id="bsaleamt" type="number" min="0" step="0.01"></div></div>
+<label>Note</label><textarea id="bnote" rows="2"></textarea><div class="actions"><button class="btn primary" onclick="saveBird()">Save Bird Entry</button></div></div>
+<div class="card"><h3>Recent Bird Entries</h3><div id="birdTable"></div></div></section>
+
+<section id="stock" class="page"><div class="card"><h2>Current Stock</h2><div class="grid">
+<div><label>Feed Stock (kg)</label><input id="feedstock" type="number" min="0" step="0.01"></div>
+<div><label>Egg Trays</label><input id="trays" type="number" min="0" step="0.01"></div>
+<div><label>Loose Egg Stock</label><input id="eggstock" type="number" min="0" step="0.01"></div>
+</div><div class="actions"><button class="btn primary" onclick="saveStock()">Save Stock</button></div>
+<p class="note">Stock is stored per user. Missing stock table no longer breaks the dashboard.</p></div></section>
+
+<section id="reports" class="page"><div class="card"><h2>Reports</h2><div id="report"></div></div></section>
+
+<section id="settings" class="page"><div class="card"><h2>Business Settings</h2><div class="grid">
+<div><label>Initial Investment</label><input id="capital" type="number" min="0" step="0.01"></div>
+<div><label>Starting Birds</label><input id="startingBirds" type="number" min="0"></div></div>
+<div class="actions"><button class="btn primary" onclick="saveSettings()">Save Settings</button></div></div></section>
 </div></div>
-<div class="section"><h2>📈 Last 7 Days Profit</h2><canvas id="chart" class="chart"></canvas></div>
-</section>
 
-<section id="daily" class="page"><div class="section"><h2>🥚 Daily Production</h2>
-<div class="grid">
-<div><label>Date</label><input id="ddate" type="date"></div>
-<div><label>Live birds</label><input id="dbirds" type="number" min="0" value="100"></div>
-<div><label>Good eggs</label><input id="deggs" type="number" min="0"></div>
-<div><label>Broken eggs</label><input id="dbroken" type="number" min="0"></div>
-<div><label>Feed used kg</label><input id="dfeed" type="number" min="0" step=".01"></div>
-<div><label>Feed rate ₹/kg</label><input id="dfeedrate" type="number" min="0" step=".01"></div>
-</div><button class="btn primary full" onclick="saveDaily()">Save Daily Entry</button></div></section>
-
-<section id="sale" class="page"><div class="section"><h2>💰 Sales</h2>
-<div class="grid">
-<div><label>Date</label><input id="sdate" type="date"></div>
-<div><label>Egg quantity</label><input id="sqty" type="number" min="0"></div>
-<div><label>Rate ₹/egg</label><input id="srate" type="number" min="0" step=".01"></div>
-<div><label>Other income ₹</label><input id="sother" type="number" min="0" step=".01"></div>
-<div><label>Customer / note</label><input id="snote"></div>
-</div><button class="btn primary full" onclick="saveSale()">Save Sale</button></div></section>
-
-<section id="expense" class="page"><div class="section"><h2>💸 Expense</h2>
-<div class="grid">
-<div><label>Date</label><input id="edate" type="date"></div>
-<div><label>Category</label><select id="ecat"><option>Feed</option><option>Medicine/Vaccine</option><option>Electricity</option><option>Water</option><option>Labour</option><option>Transport</option><option>Egg Tray</option><option>Cleaning</option><option>Repair</option><option>Bird Purchase</option><option>Other</option></select></div>
-<div><label>Amount ₹</label><input id="eamt" type="number" min="0" step=".01"></div>
-<div><label>Note</label><input id="enote"></div>
-</div><button class="btn primary full" onclick="saveExpense()">Save Expense</button></div></section>
-
-<section id="birds" class="page"><div class="section"><h2>🐔 Birds</h2>
-<div class="grid">
-<div><label>Date</label><input id="bdate" type="date"></div>
-<div><label>Birds added/purchased</label><input id="badd" type="number" min="0"></div>
-<div><label>Birds died</label><input id="bdead" type="number" min="0"></div>
-<div><label>Birds sold</label><input id="bsold" type="number" min="0"></div>
-<div><label>Bird sale income ₹</label><input id="bsaleamt" type="number" min="0" step=".01"></div>
-<div><label>Note</label><input id="bnote"></div>
-</div><button class="btn primary full" onclick="saveBird()">Save Bird Entry</button></div>
-<div class="section"><h2>Current Flock</h2><div class="value" id="flock">100</div></div></section>
-
-<section id="stock" class="page"><div class="section"><h2>🌾 Stock</h2>
-<div class="grid">
-<div><label>Feed stock kg</label><input id="feedstock" type="number" min="0" step=".01"></div>
-<div><label>Egg trays</label><input id="trays" type="number" min="0"></div>
-<div><label>Manual egg stock</label><input id="eggstock" type="number" min="0"></div>
-</div><button class="btn primary full" onclick="saveStock()">Save Stock</button>
-<div id="stockStatus" class="alert"></div></div></section>
-
-<section id="reports" class="page"><div class="section"><h2>📊 Reports</h2><div class="cards">
-<div><div class="label">Total Eggs</div><div class="value" id="rEgg">0</div></div>
-<div><div class="label">Egg Sales</div><div class="value green">₹<span id="rSales">0</span></div></div>
-<div><div class="label">Feed Cost</div><div class="value red">₹<span id="rFeed">0</span></div></div>
-<div><div class="label">Cost / Egg</div><div class="value">₹<span id="rCegg">0.00</span></div></div>
-</div></div>
-<div class="section"><h2>Daily Production</h2><div style="overflow:auto"><table><thead><tr><th>Date</th><th>Birds</th><th>Eggs</th><th>Broken</th><th>Feed kg</th><th>Feed ₹</th></tr></thead><tbody id="dt"></tbody></table></div></div>
-<div class="section"><h2>Sales</h2><div style="overflow:auto"><table><thead><tr><th>Date</th><th>Eggs</th><th>Rate</th><th>Egg Sale</th><th>Other</th><th>Total</th></tr></thead><tbody id="st"></tbody></table></div></div>
-<div class="section"><h2>Expenses</h2><div style="overflow:auto"><table><thead><tr><th>Date</th><th>Category</th><th>Amount</th><th>Note</th></tr></thead><tbody id="et"></tbody></table></div></div>
-</section>
-
-<section id="settings" class="page"><div class="section"><h2>⚙️ Settings</h2>
-<div class="grid"><div><label>Initial investment ₹</label><input id="capital" type="number" value="23000"></div>
-<div><label>Starting birds</label><input id="startingBirds" type="number" value="100"></div></div>
-<button class="btn primary full" onclick="saveSettings()">Save Settings</button>
-<div class="alert ok" style="margin-top:12px">☁️ आपका data Supabase cloud database में रहेगा। Login करके दूसरे mobile से भी वही data खुलेगा।</div>
-<button class="btn danger full" onclick="logout()">Logout</button>
-</div></section>
-</main>
-<div class="footer">Poultry Business Manager Cloud • Owner account based</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-/* IMPORTANT: Fill these two values after creating your free Supabase project.
-   SUPABASE_URL = Project Settings > API > Project URL
-   SUPABASE_ANON_KEY = Project Settings > API > Publishable/anon key */
-const SUPABASE_URL = "https://papyubevwmlylqrkqqpy.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_nO07r57Wgx-g61Q1Hvi9xw_SauxcrNn";
-console.log("POULTRY APP VERSION 2026-11-09-V2");
-console.log("SUPABASE URL:", SUPABASE_URL);
-const CONFIGURED=!SUPABASE_URL.includes("PASTE_")&&!SUPABASE_ANON_KEY.includes("PASTE_");
-let sb=null,user=null,rows={daily:[],sales:[],expenses:[],birds:[]};
-const today=new Date().toISOString().slice(0,10);
-for(const id of ['ddate','sdate','edate','bdate']) document.getElementById(id).value=today;
+const SUPABASE_URL="https://papyubevwmlylqrkqqpy.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_nO07r57Wgx-g61Q1Hvi9xw_SauxcrNn";
+console.log("POULTRY APP VERSION 2026-11-10-V3");
 
-function msg(t,err=false){authMsg.textContent=t;authMsg.style.color=err?'#b42318':'#226034'}
+const CONFIGURED=!SUPABASE_URL.includes("PASTE_")&&!SUPABASE_ANON_KEY.includes("PASTE_");
+let sb=null,user=null;
+let rows={daily:[],sales:[],expenses:[],birds:[]};
+const today=new Date().toISOString().slice(0,10);
+["ddate","sdate","edate","bdate"].forEach(id=>document.getElementById(id).value=today);
+
+function msg(t,err=false){const e=document.getElementById("authMsg");e.textContent=t;e.className="msg "+(err?"err":"ok")}
+function money(x){return "₹"+Number(x||0).toLocaleString("en-IN",{maximumFractionDigits:2})}
+function n(id){return Number(document.getElementById(id).value)||0}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]) )}
+
 async function init(){
- if(!CONFIGURED){msg('App file ready है, लेकिन cloud connection के लिए Supabase keys अभी लगानी हैं।',true);return}
- sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
- const {data}=await sb.auth.getSession(); if(data.session){user=data.session.user;openApp()}
- sb.auth.onAuthStateChange((_e,s)=>{if(s){user=s.user;openApp()}else{user=null;closeApp()}})
+if(!CONFIGURED){msg("Supabase publishable key V3 file में configure करें।",true);return}
+sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const {data}=await sb.auth.getSession();
+if(data.session){user=data.session.user;openApp()}
+sb.auth.onAuthStateChange((_e,s)=>{if(s){user=s.user;openApp()}else{user=null;closeApp()}})
 }
 async function signup(){
- if(!CONFIGURED)return msg('पहले Supabase connection setup करें।',true);
- const {error}=await sb.auth.signUp({email:loginEmail.value.trim(),password:loginPassword.value});
- if(error)msg(error.message,true);else msg('Account created. Email verification मांग सकता है।')
+if(!CONFIGURED)return msg("Supabase publishable key configure करें।",true);
+const email=loginEmail.value.trim(),password=loginPassword.value;
+if(!email||password.length<6)return msg("Email और कम से कम 6 character password डालें।",true);
+const {error}=await sb.auth.signUp({email,password});
+if(error)msg(error.message,true);else msg("Account created. Email verification की जरूरत हो सकती है।")
 }
 async function login(){
- if(!CONFIGURED)return msg('पहले Supabase connection setup करें।',true);
- const {error}=await sb.auth.signInWithPassword({email:loginEmail.value.trim(),password:loginPassword.value});
- if(error)msg(error.message,true);else msg('Login successful')
+if(!CONFIGURED)return msg("Supabase publishable key configure करें।",true);
+const {error}=await sb.auth.signInWithPassword({email:loginEmail.value.trim(),password:loginPassword.value});
+if(error)msg(error.message,true);else msg("Login successful")
 }
 async function resetPassword(){
- if(!CONFIGURED)return msg('पहले Supabase connection setup करें।',true);
- const {error}=await sb.auth.resetPasswordForEmail(resetEmail.value.trim(),{redirectTo:location.href});
- if(error)msg(error.message,true);else msg('Password reset email sent')
+if(!CONFIGURED)return msg("Supabase publishable key configure करें।",true);
+const {error}=await sb.auth.resetPasswordForEmail(resetEmail.value.trim(),{redirectTo:location.href});
+if(error)msg(error.message,true);else msg("Password reset email sent")
 }
-function toggleReset(){resetBox.classList.toggle('hidden');loginBox.classList.toggle('hidden')}
+function toggleReset(){resetBox.classList.toggle("hidden");loginBox.classList.toggle("hidden")}
 async function logout(){if(sb)await sb.auth.signOut()}
-function openApp(){authScreen.classList.add('hidden');app.classList.remove('hidden');userEmail.textContent=user.email;loadAll()}
-function closeApp(){app.classList.add('hidden');authScreen.classList.remove('hidden')}
-function showPage(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()}
-function n(id){return Number(document.getElementById(id).value)||0}
-async function insert(table,obj){const {error}=await sb.from(table).insert({...obj,user_id:user.id});if(error)alert(error.message);else{await loadAll();alert('Saved')}}
-async function saveDaily(){await insert('daily_entries',{date:ddate.value,live_birds:n('dbirds'),good_eggs:n('deggs'),broken_eggs:n('dbroken'),feed_kg:n('dfeed'),feed_rate:n('dfeedrate')})}
-async function saveSale(){await insert('sales',{date:sdate.value,egg_qty:n('sqty'),egg_rate:n('srate'),other_income:n('sother'),note:snote.value})}
-async function saveExpense(){await insert('expenses',{date:edate.value,category:ecat.value,amount:n('eamt'),note:enote.value})}
-async function saveBird(){await insert('bird_entries',{date:bdate.value,added:n('badd'),dead:n('bdead'),sold:n('bsold'),sale_income:n('bsaleamt'),note:bnote.value})}
-async function saveStock(){const {error}=await sb.from('stock').upsert({user_id:user.id,feed_kg:n('feedstock'),egg_trays:n('trays'),egg_stock:n('eggstock'),updated_at:new Date().toISOString()},{onConflict:'user_id'});if(error)alert(error.message);else{await loadAll();alert('Stock saved')}}
-async function saveSettings(){const {error}=await sb.from('profiles').upsert({user_id:user.id,initial_investment:n('capital'),starting_birds:n('startingBirds'),updated_at:new Date().toISOString()},{onConflict:'user_id'});if(error)alert(error.message);else{await loadAll();alert('Settings saved')}}
-async function load(table,order='date'){const {data,error}=await sb.from(table).select('*').order(order,{ascending:false});if(error){alert(error.message);return []}return data||[]}
+function openApp(){authScreen.classList.add("hidden");app.classList.remove("hidden");userEmail.textContent=user.email;loadAll()}
+function closeApp(){app.classList.add("hidden");authScreen.classList.remove("hidden")}
+function go(id){const b=[...document.querySelectorAll("nav button")].find(x=>x.textContent.toLowerCase().replace(" ","").includes(id.replace(" ","")));showPage(id,b)}
+function showPage(id,b){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));if(b)b.classList.add("active");render()}
+
+function tableHtml(items,cols){
+if(!items.length)return "<div class='note'>No entries yet.</div>";
+return "<div style='overflow:auto'><table><thead><tr>"+cols.map(c=>"<th>"+c[0]+"</th>").join("")+"</tr></thead><tbody>"+
+items.slice(0,20).map(r=>"<tr>"+cols.map(c=>"<td>"+esc(typeof c[1]==="function"?c[1](r):r[c[1]])+"</td>").join("")+"</tr>").join("")+
+"</tbody></table></div>"
+}
+async function loadMain(table,order="date"){
+const {data,error}=await sb.from(table).select("*").eq("user_id",user.id).order(order,{ascending:false});
+if(error)throw new Error(table+": "+error.message);
+return data||[]
+}
+async function loadOptional(table,order="updated_at"){
+const {data,error}=await sb.from(table).select("*").eq("user_id",user.id).order(order,{ascending:false}).limit(1);
+if(error){console.warn("Optional table "+table+" unavailable:",error.message);return null}
+return data?.[0]||null
+}
 async function loadAll(){
- rows.daily=await load('daily_entries');rows.sales=await load('sales');rows.expenses=await load('expenses');rows.birds=await load('bird_entries');
- const {data:p}=await sb.from('profiles').select('*').maybeSingle(); if(p){capital.value=p.initial_investment||23000;startingBirds.value=p.starting_birds||100}
- const {data:s}=await sb.from('stock').select('*').maybeSingle(); if(s){feedstock.value=s.feed_kg||0;trays.value=s.egg_trays||0;eggstock.value=s.egg_stock||0}
- render()
+try{
+rows.daily=await loadMain("daily_entries");rows.sales=await loadMain("sales");rows.expenses=await loadMain("expenses");rows.birds=await loadMain("bird_entries");
+const p=await loadOptional("profiles");if(p){capital.value=p.initial_investment??23000;startingBirds.value=p.starting_birds??100}
+const s=await loadOptional("stock");if(s){feedstock.value=s.feed_kg??0;trays.value=s.egg_trays??0;eggstock.value=s.egg_stock??0}
+render()
+}catch(e){
+console.error(e);
+alert("Database read error:\n"+e.message+"\n\nSupabase SQL Editor में V3 SQL एक बार Run करें.")
+}}
+async function insert(table,obj){
+if(!user)return alert("Session expired. Please login again.");
+const {error}=await sb.from(table).insert({...obj,user_id:user.id});
+if(error){console.error(error);alert("Save failed:\n"+error.message);return}
+await loadAll();alert("Saved successfully")
 }
-function calc(){const feed=rows.daily.reduce((s,x)=>s+x.feed_kg*x.feed_rate,0),eggSales=rows.sales.reduce((s,x)=>s+x.egg_qty*x.egg_rate,0),other=rows.sales.reduce((s,x)=>s+x.other_income,0),birdSales=rows.birds.reduce((s,x)=>s+x.sale_income,0),otherExp=rows.expenses.reduce((s,x)=>s+x.amount,0),eggs=rows.daily.reduce((s,x)=>s+x.good_eggs,0),dead=rows.birds.reduce((s,x)=>s+x.dead,0),add=rows.birds.reduce((s,x)=>s+x.added,0),sold=rows.birds.reduce((s,x)=>s+x.sold,0);return{feed,eggSales,income:eggSales+other+birdSales,cost:feed+otherExp,profit:eggSales+other+birdSales-feed-otherExp,eggs,dead,live:Number(startingBirds.value||100)+add-dead-sold}}
+async function saveDaily(){await insert("daily_entries",{date:ddate.value,live_birds:n("dbirds"),good_eggs:n("deggs"),broken_eggs:n("dbroken"),feed_kg:n("dfeed"),feed_rate:n("dfeedrate")})}
+async function saveSale(){await insert("sales",{date:sdate.value,egg_qty:n("sqty"),egg_rate:n("srate"),other_income:n("sother"),note:snote.value})}
+async function saveExpense(){await insert("expenses",{date:edate.value,category:ecat.value,amount:n("eamt"),note:enote.value})}
+async function saveBird(){await insert("bird_entries",{date:bdate.value,added:n("badd"),dead:n("bdead"),sold:n("bsold"),sale_income:n("bsaleamt"),note:bnote.value})}
+async function saveStock(){
+if(!user)return alert("Session expired. Please login again.");
+const {error}=await sb.from("stock").upsert({user_id:user.id,feed_kg:n("feedstock"),egg_trays:n("trays"),egg_stock:n("eggstock"),updated_at:new Date().toISOString()},{onConflict:"user_id"});
+if(error){alert("Stock save failed:\n"+error.message);return}
+await loadAll();alert("Stock saved successfully")
+}
+async function saveSettings(){
+if(!user)return alert("Session expired. Please login again.");
+const {error}=await sb.from("profiles").upsert({user_id:user.id,initial_investment:n("capital"),starting_birds:n("startingBirds"),updated_at:new Date().toISOString()},{onConflict:"user_id"});
+if(error){alert("Settings save failed:\n"+error.message);return}
+await loadAll();alert("Settings saved successfully")
+}
 function render(){
- const t=calc(),d=rows.daily.filter(x=>x.date===today),s=rows.sales.filter(x=>x.date===today),e=rows.expenses.filter(x=>x.date===today),b=rows.birds.filter(x=>x.date===today);
- const te=d.reduce((a,x)=>a+x.good_eggs,0),ts=s.reduce((a,x)=>a+x.egg_qty*x.egg_rate+x.other_income,0)+b.reduce((a,x)=>a+x.sale_income,0),tx=e.reduce((a,x)=>a+x.amount,0)+d.reduce((a,x)=>a+x.feed_kg*x.feed_rate,0),tp=ts-tx;
- todayEgg.textContent=te;todaySale.textContent=money(ts);todayExp.textContent=money(tx);todayProfit.textContent='₹'+money(tp);todayProfit.className='value '+(tp>=0?'green':'red');
- totalIncome.textContent=money(t.income);totalCost.textContent=money(t.cost);netProfit.textContent='₹'+money(t.profit);netProfit.className='value '+(t.profit>=0?'green':'red');
- live.textContent=t.live;flock.textContent=t.live;allEgg.textContent=t.eggs;mort.textContent=t.dead;prod.textContent=t.live?(t.eggs/t.live*100).toFixed(1)+'%':'0%';costEgg.textContent=t.eggs?(t.cost/t.eggs).toFixed(2):'0.00';
- rEgg.textContent=t.eggs;rSales.textContent=money(t.eggSales);rFeed.textContent=money(t.feed);rCegg.textContent=t.eggs?(t.cost/t.eggs).toFixed(2):'0.00';
- let a=[];if(!d.length)a.push('⚠️ आज की daily entry नहीं हुई।');if(d.length&&t.live&&te/t.live<.6)a.push('⚠️ Production 60% से कम है।');if(Number(feedstock.value||0)<5)a.push('🌾 Feed stock 5 kg से कम है।');if(!a.length)a.push('✅ कोई major alert नहीं।');alerts.innerHTML=a.map(x=>`<div class="alert">${x}</div>`).join('');
- stockStatus.textContent=`Feed: ${feedstock.value||0} kg • Trays: ${trays.value||0} • Egg stock: ${eggstock.value||0}`;
- dt.innerHTML=rows.daily.map(x=>`<tr><td>${x.date}</td><td>${x.live_birds}</td><td>${x.good_eggs}</td><td>${x.broken_eggs}</td><td>${x.feed_kg}</td><td>₹${money(x.feed_kg*x.feed_rate)}</td></tr>`).join('')||'<tr><td colspan="6">No data</td></tr>';
- st.innerHTML=rows.sales.map(x=>`<tr><td>${x.date}</td><td>${x.egg_qty}</td><td>₹${money(x.egg_rate)}</td><td>₹${money(x.egg_qty*x.egg_rate)}</td><td>₹${money(x.other_income)}</td><td>₹${money(x.egg_qty*x.egg_rate+x.other_income)}</td></tr>`).join('')||'<tr><td colspan="6">No data</td></tr>';
- et.innerHTML=rows.expenses.map(x=>`<tr><td>${x.date}</td><td>${x.category}</td><td>₹${money(x.amount)}</td><td>${x.note||''}</td></tr>`).join('')||'<tr><td colspan="4">No data</td></tr>';
- drawChart()
+const eggSales=rows.sales.reduce((a,r)=>a+Number(r.egg_qty||0),0);
+const sales=rows.sales.reduce((a,r)=>a+Number(r.egg_qty||0)*Number(r.egg_rate||0),0);
+const other=rows.sales.reduce((a,r)=>a+Number(r.other_income||0),0);
+const exp=rows.expenses.reduce((a,r)=>a+Number(r.amount||0),0);
+const birdIncome=rows.birds.reduce((a,r)=>a+Number(r.sale_income||0),0);
+const profit=sales+other+birdIncome-exp;
+const live=Number(startingBirds.value||0)+rows.birds.reduce((a,r)=>a+Number(r.added||0)-Number(r.dead||0)-Number(r.sold||0),0);
+kEggs.textContent=eggSales;kSales.textContent=money(sales+birdIncome);kOther.textContent=money(other);kExp.textContent=money(exp);kProfit.textContent=money(profit);kBirds.textContent=Math.max(0,live);
+dailyTable.innerHTML=tableHtml(rows.daily,[["Date","date"],["Live Birds","live_birds"],["Good Eggs","good_eggs"],["Broken","broken_eggs"],["Feed kg","feed_kg"]]);
+salesTable.innerHTML=tableHtml(rows.sales,[["Date","date"],["Egg Qty","egg_qty"],["Rate","egg_rate"],["Egg Sale",r=>money(Number(r.egg_qty||0)*Number(r.egg_rate||0))],["Other",r=>money(r.other_income)]]);
+expenseTable.innerHTML=tableHtml(rows.expenses,[["Date","date"],["Category","category"],["Amount",r=>money(r.amount)],["Note","note"]]);
+birdTable.innerHTML=tableHtml(rows.birds,[["Date","date"],["Added","added"],["Dead","dead"],["Sold","sold"],["Income",r=>money(r.sale_income)]]);
+const feedCost=rows.daily.reduce((a,r)=>a+Number(r.feed_kg||0)*Number(r.feed_rate||0),0);
+report.innerHTML=`<div class="grid3"><div class="kpi">Egg Sale<b>${money(sales)}</b></div><div class="kpi">Bird Sale<b>${money(birdIncome)}</b></div><div class="kpi">Other Income<b>${money(other)}</b></div><div class="kpi">Expenses<b>${money(exp)}</b></div><div class="kpi">Recorded Feed Cost<b>${money(feedCost)}</b></div><div class="kpi">Net Result<b>${money(profit)}</b></div></div>`
 }
-function money(x){return Math.round(x*100)/100}
-function drawChart(){const c=document.getElementById('chart'),ctx=c.getContext('2d'),w=c.clientWidth*devicePixelRatio,h=220*devicePixelRatio;c.width=w;c.height=h;ctx.clearRect(0,0,w,h);let ds=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);ds.push(d.toISOString().slice(0,10))}let v=ds.map(day=>rows.sales.filter(x=>x.date===day).reduce((a,x)=>a+x.egg_qty*x.egg_rate+x.other_income,0)-rows.expenses.filter(x=>x.date===day).reduce((a,x)=>a+x.amount,0)-rows.daily.filter(x=>x.date===day).reduce((a,x)=>a+x.feed_kg*x.feed_rate,0));let max=Math.max(1,...v.map(x=>Math.abs(x))),pad=25*devicePixelRatio,base=h/2;ctx.strokeStyle='#dbe3dc';ctx.beginPath();ctx.moveTo(pad,base);ctx.lineTo(w-pad,base);ctx.stroke();ctx.beginPath();v.forEach((x,i)=>{let X=pad+i*(w-2*pad)/6,Y=base-x/max*(base-pad);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)});ctx.strokeStyle='#166534';ctx.lineWidth=3;ctx.stroke();ctx.fillStyle='#5e685f';ctx.font=`${10*devicePixelRatio}px system-ui`;v.forEach((x,i)=>{let X=pad+i*(w-2*pad)/6,Y=base-x/max*(base-pad);ctx.fillText(x.toFixed(0),X-10,Y-8);ctx.fillText(ds[i].slice(5),X-14,h-8)})}
 init();
 </script>
 </body>
